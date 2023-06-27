@@ -7,7 +7,16 @@ project(rosbag_to_pcd)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED)
+find_package(catkin REQUIRED COMPONENTS
+    roscpp
+    rospy
+    std_msgs
+    sensor_msgs
+    tf
+    pcl_ros
+)
+
+find_package(PCL 1.7 REQUIRED)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -113,7 +122,7 @@ catkin_package(
 ## Your package locations should be listed before other locations
 include_directories(
 # include
-# ${catkin_INCLUDE_DIRS}
+    ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -200,3 +209,9 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+add_executable(rosbag_to_ascii_pcd src/rosbag_to_ascii_pcd.cpp)
+target_link_libraries(rosbag_to_ascii_pcd
+    ${catkin_LIBRARIES}
+    ${PCL_LIBRARIES}
+)
